@@ -1,5 +1,8 @@
 ﻿namespace PatchKit.Network
 {
+    /// <summary>
+    /// HTTP client with ability to send requests.
+    /// </summary>
     public interface IHttpClient
     {
         /// <summary>

@@ -4,6 +4,10 @@ using System.Reflection;
 
 namespace PatchKit.Network
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Default implementation of <see cref="T:PatchKit.Network.IHttpClient" />.
+    /// </summary>
     public class DefaultHttpClient : IHttpClient
     {
         private static readonly MethodInfo HttpWebRequestAddRangeHelper = typeof(WebHeaderCollection).GetMethod

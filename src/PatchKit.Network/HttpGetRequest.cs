@@ -2,6 +2,9 @@
 
 namespace PatchKit.Network
 {
+    /// <summary>
+    /// Describes HTTP GET request.
+    /// </summary>
     public class HttpGetRequest
     {
         /// <summary>
