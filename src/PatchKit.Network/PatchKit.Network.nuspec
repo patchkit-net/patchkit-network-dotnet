@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://raw.githubusercontent.com/patchkit-net/patchkit-network-dotnet/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/patchkit-net/patchkit-network-dotnet</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>https://github.com/patchkit-net/patchkit-network-dotnet/releases</releaseNotes>
+    <copyright>Copyright 2018</copyright>
+    <tags>patchkit network upsoft</tags>
+  </metadata>
+</package>
