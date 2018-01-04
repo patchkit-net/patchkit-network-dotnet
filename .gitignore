@@ -1,4 +1,6 @@
 /src/PatchKit.Network/obj/
 /src/PatchKit.Network/bin/
+/src/Test/obj/
+/src/Test/bin/
 /src/packages/
 /src/.idea/
