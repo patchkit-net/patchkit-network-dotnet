@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: Guid("EE5FBFA6-CF9A-4393-B052-0757457FDFDB")]
 
 #if DEBUG
-[assembly: AssemblyVersion(VersionInfo.Version + ".*")]
+[assembly: AssemblyVersion(VersionInfo.Major + "." + VersionInfo.Minor + ".*")]
 #else
-[assembly: AssemblyInformationalVersion(VersionInfo.Version + VersionInfo.Suffix)]
+[assembly: AssemblyInformationalVersion(VersionInfo.Major + "." + VersionInfo.Minor + "." + VersionInfo.Patch + VersionInfo.Suffix)]
 #endif

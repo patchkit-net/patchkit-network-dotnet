@@ -71,7 +71,7 @@
   <Target Name="PublishPackage" DependsOnTargets="Build" Condition=" '$(Configuration)' == 'Release' ">
     <CallTarget Targets="ClearPackages" />
     <Exec Command="nuget pack PatchKit.Network.csproj -MsbuildPath $(MSBuildToolsPath) -Prop Configuration=Release" />
-    <Exec Command="nuget push *.nupkg" />
+    <Exec Command="nuget push *.nupkg -Source https://api.nuget.org/v3/index.json" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
