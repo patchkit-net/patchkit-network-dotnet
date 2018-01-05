@@ -4,9 +4,9 @@ namespace PatchKit.Network
 {
     /// <inheritdoc />
     /// <summary>
-    /// Simple implementation of <see cref="T:PatchKit.Network.IRequestRetryDelayCalculator" />.
+    /// Simple implementation of <see cref="T:PatchKit.Network.IRequestRetryDelayCalculator" /> that never stops making retries.
     /// </summary>
-    public class SimpleRequestRetryDelayCalculator : IRequestRetryDelayCalculator
+    public class SimpleInfiniteRequestRetryStrategy : IRequestRetryStrategy
     {
         private readonly int[] _delaysInSeconds =
         {
@@ -16,15 +16,18 @@ namespace PatchKit.Network
         private int _index;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SimpleRequestRetryDelayCalculator"/> class.
+        /// Initializes a new instance of the <see cref="SimpleInfiniteRequestRetryStrategy"/> class.
         /// </summary>
-        public SimpleRequestRetryDelayCalculator()
+        public SimpleInfiniteRequestRetryStrategy()
         {
             _index = 0;
         }
 
         /// <inheritdoc />
-        public int Delay => _delaysInSeconds[_index] * 1000;
+        public int DelayBeforeNextTry => _delaysInSeconds[_index] * 1000;
+
+        /// <inheritdoc />
+        public bool ShouldRetry => true;
 
         /// <inheritdoc />
         public void OnRequestSuccess()

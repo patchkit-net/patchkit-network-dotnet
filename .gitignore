@@ -1,6 +1,5 @@
 /src/PatchKit.Network/obj/
 /src/PatchKit.Network/bin/
-/src/PatchKit.Network/*.nupkg
 /src/Test/obj/
 /src/Test/bin/
 /src/packages/
