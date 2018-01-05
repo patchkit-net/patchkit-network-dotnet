@@ -2,46 +2,46 @@
 
 namespace PatchKit.Network
 {
-    public class SimpleRequestRetryDelayCalculatorTest
+    public class SimpleRequestRetryDelaystrategyTest
     {
         [Test]
         public void DelayGreaterOrEqual_ForEach_OnRequestFailure()
         {
-            var calculator = new SimpleRequestRetryDelayCalculator();
+            var strategy = new SimpleInfiniteRequestRetryStrategy();
 
-            int previousDelay = calculator.Delay;
+            int previousDelay = strategy.DelayBeforeNextTry;
             
             for (int i = 0; i < 10; i++)
             {
-                calculator.OnRequestFailure();
-                Assert.GreaterOrEqual(calculator.Delay, previousDelay);
-                previousDelay = calculator.Delay;
+                strategy.OnRequestFailure();
+                Assert.GreaterOrEqual(strategy.DelayBeforeNextTry, previousDelay);
+                previousDelay = strategy.DelayBeforeNextTry;
             }
         }
         
         [Test]
         public void DelayResets_For_OnRequestSuccess()
         {
-            var calculator = new SimpleRequestRetryDelayCalculator();
+            var strategy = new SimpleInfiniteRequestRetryStrategy();
 
-            int initialDelay = calculator.Delay;
+            int initialDelay = strategy.DelayBeforeNextTry;
             
             for (int i = 0; i < 10; i++)
             {
-                calculator.OnRequestFailure();
+                strategy.OnRequestFailure();
             }
             
-            calculator.OnRequestSuccess();
+            strategy.OnRequestSuccess();
 
-            Assert.AreEqual(calculator.Delay, initialDelay);
+            Assert.AreEqual(strategy.DelayBeforeNextTry, initialDelay);
         }
         
         [Test]
         public void DelayIsPositive_For_NewInstance()
         {
-            var calculator = new SimpleRequestRetryDelayCalculator();
+            var strategy = new SimpleInfiniteRequestRetryStrategy();
 
-            Assert.GreaterOrEqual(calculator.Delay, 0);
+            Assert.GreaterOrEqual(strategy.DelayBeforeNextTry, 0);
         }
     }
 }
