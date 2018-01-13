@@ -65,7 +65,7 @@ namespace PatchKit.Network
             }
 
             var startText = range.Start.ToString();
-            var endText = range.End > 0L ? range.End.ToString() : string.Empty;
+            var endText = range.End >= 0L ? range.End.ToString() : string.Empty;
             
             HttpWebRequestAddRangeHelper.Invoke(httpWebRequest.Headers, new object[]
             {
