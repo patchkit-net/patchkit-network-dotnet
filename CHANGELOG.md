@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Scripts for managing nuget packages
 
+### Fixed
+- Bytes range handling in `DefaultHttpClient`
+
 ### Changed
 - Versioning method
 - The way of publishing nuget package
