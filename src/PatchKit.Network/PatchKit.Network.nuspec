@@ -5,7 +5,7 @@
     <version>$version$</version>
     <title>$title$</title>
     <authors>$author$</authors>
-    <owners>$author$</owners>
+    <owners>witcher112</owners>
     <licenseUrl>https://raw.githubusercontent.com/patchkit-net/patchkit-network-dotnet/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/patchkit-net/patchkit-network-dotnet</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
