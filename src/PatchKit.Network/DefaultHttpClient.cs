@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Text;
 using System.Reflection;
 
 namespace PatchKit.Network
@@ -16,19 +17,47 @@ namespace PatchKit.Network
         /// <inheritdoc />
         public IHttpResponse Get(HttpGetRequest getRequest)
         {
-            if (getRequest.Address.Scheme != Uri.UriSchemeHttp && getRequest.Address.Scheme != Uri.UriSchemeHttps)
+            return Request(getRequest, (httpWebRequest) => {
+                if (getRequest.Range != null)
+                {
+                    SetRange(httpWebRequest, getRequest.Range.Value);
+                }
+            });
+        }
+
+        public IHttpResponse Post(HttpPostRequest postRequest)
+        {
+            return Request(postRequest, (httpWebRequest) => {
+                var requestData = Encoding.ASCII.GetBytes(postRequest.Query);
+
+                httpWebRequest.Method = "Post";
+                httpWebRequest.ContentType = "application/x-www-form-urlencoded";
+                httpWebRequest.ContentLength = requestData.Length;
+
+                using (var requestDataStream = httpWebRequest.GetRequestStream())
+                {
+                    requestDataStream.Write(requestData, 0, requestData.Length);
+                }
+            });
+        }
+
+        private IHttpResponse Request(BaseHttpRequest request, Action<HttpWebRequest> tweakMethodSpecific)
+        {
+            if (request.Address.Scheme != Uri.UriSchemeHttp && request.Address.Scheme != Uri.UriSchemeHttps)
             {
                 throw new NotSupportedException("Request address is not pointing to HTTP/HTTPS resource.");
             }
 
-            var httpWebRequest = (HttpWebRequest) WebRequest.Create(getRequest.Address);
-
-            if (getRequest.Range != null)
+            if (tweakMethodSpecific == null)
             {
-                SetRange(httpWebRequest, getRequest.Range.Value);
+                throw new ArgumentNullException("Method specific configuration musn't be null.");
             }
 
-            httpWebRequest.Timeout = getRequest.Timeout;
+            var httpWebRequest = (HttpWebRequest) WebRequest.Create(request.Address);
+
+            tweakMethodSpecific(httpWebRequest);
+
+            httpWebRequest.Timeout = request.Timeout;
 
             HttpWebResponse httpWebResponse;
             
