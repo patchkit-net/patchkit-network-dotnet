@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace PatchKit.Network
+﻿namespace PatchKit.Network
 {
     /// <summary>
     /// Describes HTTP GET request.

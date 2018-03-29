@@ -17,7 +17,7 @@ namespace PatchKit.Network
         /// <inheritdoc />
         public IHttpResponse Get(HttpGetRequest getRequest)
         {
-            return Request(getRequest, (httpWebRequest) => {
+            return Request(getRequest, httpWebRequest => {
                 if (getRequest.Range != null)
                 {
                     SetRange(httpWebRequest, getRequest.Range.Value);
@@ -25,10 +25,11 @@ namespace PatchKit.Network
             });
         }
 
+        /// <inheritdoc />
         public IHttpResponse Post(HttpPostRequest postRequest)
         {
-            return Request(postRequest, (httpWebRequest) => {
-                var requestData = Encoding.ASCII.GetBytes(postRequest.Query);
+            return Request(postRequest, httpWebRequest => {
+                var requestData = Encoding.ASCII.GetBytes(postRequest.Body);
 
                 httpWebRequest.Method = "Post";
                 httpWebRequest.ContentType = "application/x-www-form-urlencoded";
@@ -50,7 +51,7 @@ namespace PatchKit.Network
 
             if (tweakMethodSpecific == null)
             {
-                throw new ArgumentNullException("Method specific configuration musn't be null.");
+                throw new ArgumentNullException(nameof(tweakMethodSpecific));
             }
 
             var httpWebRequest = (HttpWebRequest) WebRequest.Create(request.Address);

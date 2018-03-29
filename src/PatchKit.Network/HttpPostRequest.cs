@@ -1,5 +1,3 @@
-using System;
-
 namespace PatchKit.Network
 {
     /// <summary>
@@ -8,8 +6,8 @@ namespace PatchKit.Network
     public class HttpPostRequest : BaseHttpRequest
     {
         /// <summary>
-        /// Request query to be sent in body.
+        /// Request body.
         /// </summary>
-        public string Query { get; set; }
+        public string Body { get; set; }
     }
 }
