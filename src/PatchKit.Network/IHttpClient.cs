@@ -11,5 +11,12 @@
         /// <param name="getRequest">Request to send.</param>
         /// <returns>Response for sent request.</returns>
         IHttpResponse Get(HttpGetRequest getRequest);
+
+        /// <summary>
+        /// Sends POST request.
+        /// </summary>
+        /// <param name="postRequest">Request to send.</param>
+        /// <returns>Response for sent request.</returns>
+        IHttpResponse Post(HttpPostRequest postRequest);
     }
 }

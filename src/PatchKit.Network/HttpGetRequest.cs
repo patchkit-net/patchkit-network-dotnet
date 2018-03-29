@@ -1,22 +1,10 @@
-﻿using System;
-
-namespace PatchKit.Network
+﻿namespace PatchKit.Network
 {
     /// <summary>
     /// Describes HTTP GET request.
     /// </summary>
-    public class HttpGetRequest
+    public class HttpGetRequest : BaseHttpRequest
     {
-        /// <summary>
-        /// Target request address.
-        /// </summary>
-        public Uri Address { get; set; }
-        
-        /// <summary>
-        /// Request timeout in miliseconds.
-        /// </summary>
-        public int Timeout { get; set; }
-        
         /// <summary>
         /// Requested bytes range.
         /// If set to <c>null</c> range is not specified.
