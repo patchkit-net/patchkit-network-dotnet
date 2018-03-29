@@ -44,9 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseHttpRequest.cs" />
     <Compile Include="DefaultHttpClient.cs" />
     <Compile Include="HttpGetRequest.cs" />
     <Compile Include="BytesRange.cs" />
+    <Compile Include="HttpPostRequest.cs" />
     <Compile Include="HttpWebResponseAdapter.cs" />
     <Compile Include="IHttpClient.cs" />
     <Compile Include="IHttpResponse.cs" />
