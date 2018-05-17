@@ -24,5 +24,67 @@
             Start = start;
             End = end;
         }
+        
+        /// <summary>
+        /// Returns a range specified by the start and end arguments.
+        /// If an the optional topBound argument is provided, the end of the range
+        /// will be limited by it.
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="topBound"></param>
+        /// <returns></returns>
+        public static BytesRange Make(long start, long end = -1, long topBound = -1)
+        {
+            long s = start;
+            long e = end;
+
+            if (end == -1 && topBound != -1)
+            {
+                end = topBound;
+            }
+
+            return new BytesRange
+            {
+                Start = s,
+                End = e
+            };
+        }
+
+        /// <summary>
+        /// Returns an empty range 0:0
+        /// </summary>
+        /// <returns></returns>
+        public static BytesRange Empty()
+        {
+            return Make(0, 0);
+        }
+
+        /// <inheritdoc />
+        public string ValidationError
+        {
+            get
+            {
+                if (Start < 0)
+                {
+                    return "Start cannot be less than zero.";
+                }
+
+                if (End.HasValue)
+                {
+                    if (End.Value < 0)
+                    {
+                        return "End cannot be less than zero.";
+                    }
+
+                    if (End.Value < Start)
+                    {
+                        return "End cannot be less than Start.";
+                    }
+                }
+
+                return null;
+            }
+        }
     }
 }

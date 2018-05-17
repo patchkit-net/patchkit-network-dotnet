@@ -45,7 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseHttpRequest.cs" />
+    <Compile Include="BytesRangeExtensions.cs" />
     <Compile Include="DefaultHttpClient.cs" />
+    <Compile Include="HttpClient.cs" />
     <Compile Include="HttpGetRequest.cs" />
     <Compile Include="BytesRange.cs" />
     <Compile Include="HttpPostRequest.cs" />
