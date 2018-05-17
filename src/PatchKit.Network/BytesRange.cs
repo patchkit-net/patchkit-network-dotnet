@@ -59,32 +59,5 @@
         {
             return Make(0, 0);
         }
-
-        /// <inheritdoc />
-        public string ValidationError
-        {
-            get
-            {
-                if (Start < 0)
-                {
-                    return "Start cannot be less than zero.";
-                }
-
-                if (End.HasValue)
-                {
-                    if (End.Value < 0)
-                    {
-                        return "End cannot be less than zero.";
-                    }
-
-                    if (End.Value < Start)
-                    {
-                        return "End cannot be less than Start.";
-                    }
-                }
-
-                return null;
-            }
-        }
     }
 }
