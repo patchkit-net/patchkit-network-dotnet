@@ -9,7 +9,10 @@ namespace PatchKit.Network
     /// </summary>
     public struct HttpPostRequest : IValidatable
     {
-        public HttpPostRequest(Uri address,
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HttpPostRequest"/> struct.
+        /// </summary>
+        public HttpPostRequest(HttpAddress address,
             ImmutableArray<byte> content,
             HttpPostRequestContentType contentType)
         {
@@ -21,7 +24,7 @@ namespace PatchKit.Network
         /// <summary>
         /// Target request address.
         /// </summary>
-        public Uri Address { get; }
+        public HttpAddress Address { get; }
 
         /// <summary>
         /// Content type.
@@ -38,15 +41,9 @@ namespace PatchKit.Network
         {
             get
             {
-                if (Address == null)
+                if (!Address.IsValid())
                 {
-                    return "Address cannot be null.";
-                }
-
-                if (Address.Scheme != Uri.UriSchemeHttp &&
-                    Address.Scheme != Uri.UriSchemeHttps)
-                {
-                    return "Address scheme must be HTTP or HTTPS";
+                    return Address.GetFieldValidationError(nameof(Address));
                 }
 
                 if (!Enum.IsDefined(typeof(HttpPostRequestContentType), ContentType))

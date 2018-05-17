@@ -2,10 +2,10 @@
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Reflection;
 using System.Text;
 using FluentAssertions;
 using PatchKit.Core;
+using PatchKit.Core.Cancellation;
 using Timeout = PatchKit.Core.Timeout;
 
 namespace PatchKit.Network
@@ -16,26 +16,17 @@ namespace PatchKit.Network
     /// </summary>
     public class HttpClient : IHttpClient
     {
-        private static readonly MethodInfo HttpWebRequestAddRangeHelper = typeof(WebHeaderCollection).GetMethod
-            ("AddWithoutValidate", BindingFlags.Instance | BindingFlags.NonPublic);
-
         /// <inheritdoc />
-        public HttpResponse SendRequest(HttpGetRequest request, Timeout? timeout)
+        public HttpResponse SendRequest(HttpGetRequest request, Timeout? timeout, CancellationToken cancellationToken)
         {
             request.ThrowArgumentExceptionIfNotValid(nameof(request));
             timeout?.ThrowArgumentExceptionIfNotValid(nameof(timeout));
 
-            return SendRequest(request.Address, timeout, httpWebRequest =>
-            {
-                if (request.Range != null)
-                {
-                    SetRange(httpWebRequest, request.Range.Value);
-                }
-            });
+            return SendRequest(request.Address, timeout, httpWebRequest => { }, cancellationToken);
         }
 
         /// <inheritdoc />
-        public HttpResponse SendRequest(HttpPostRequest request, Timeout? timeout)
+        public HttpResponse SendRequest(HttpPostRequest request, Timeout? timeout, CancellationToken cancellationToken)
         {
             request.ThrowArgumentExceptionIfNotValid(nameof(request));
             timeout?.ThrowArgumentExceptionIfNotValid(nameof(timeout));
@@ -61,14 +52,16 @@ namespace PatchKit.Network
                 {
                     requestDataStream.Write(content.ToArray(), 0, content.Length);
                 }
-            });
+            }, cancellationToken);
         }
 
-        private static HttpResponse SendRequest(Uri address, Timeout? timeout, Action<HttpWebRequest> tweakMethodSpecific)
+        private static HttpResponse SendRequest(HttpAddress address, Timeout? timeout,
+            Action<HttpWebRequest> tweakMethodSpecific, CancellationToken cancellationToken)
         {
+            //TODO: Support cancellation token here
             tweakMethodSpecific.Should().NotBeNull();
 
-            var httpWebRequest = (HttpWebRequest) WebRequest.Create(address);
+            var httpWebRequest = (HttpWebRequest) WebRequest.Create(address.Uri);
 
             tweakMethodSpecific(httpWebRequest);
 
@@ -117,20 +110,6 @@ namespace PatchKit.Network
                     return new HttpResponse(body, httpWebResponse.StatusCode);
                 }
             }
-        }
-
-        private static void SetRange(HttpWebRequest httpWebRequest, BytesRange range)
-        {
-            range.IsValid().Should().BeTrue();
-
-            var startText = range.Start.ToString();
-            var endText = range.End.HasValue ? range.End.ToString() : string.Empty;
-
-            HttpWebRequestAddRangeHelper.Invoke(httpWebRequest.Headers, new object[]
-            {
-                "Range",
-                $"bytes={startText}-{endText}"
-            });
         }
     }
 }

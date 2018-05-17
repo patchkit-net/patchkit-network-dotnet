@@ -1,5 +1,4 @@
-﻿using System;
-using PatchKit.Core;
+﻿using PatchKit.Core;
 
 namespace PatchKit.Network
 {
@@ -8,42 +7,27 @@ namespace PatchKit.Network
     /// </summary>
     public struct HttpGetRequest : IValidatable
     {
-        public HttpGetRequest(Uri address, BytesRange? range)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HttpGetRequest"/> struct.
+        /// </summary>
+        public HttpGetRequest(HttpAddress address)
         {
             Address = address;
-            Range = range;
         }
 
         /// <summary>
         /// Target request address.
         /// </summary>
-        public Uri Address { get; }
-
-        /// <summary>
-        /// Requested bytes range.
-        /// If set to <c>null</c> range is not specified.
-        /// </summary>
-        public BytesRange? Range { get; }
+        public HttpAddress Address { get; }
 
         /// <inheritdoc />
         public string ValidationError
         {
             get
             {
-                if (Address == null)
+                if (!Address.IsValid())
                 {
-                    return "Address cannot be null.";
-                }
-
-                if (Address.Scheme != Uri.UriSchemeHttp &&
-                    Address.Scheme != Uri.UriSchemeHttps)
-                {
-                    return "Address scheme must be HTTP or HTTPS";
-                }
-
-                if (!Range.IsValidOrNull())
-                {
-                    return Range.Value.GetFieldValidationError(nameof(Range));
+                    return Address.GetFieldValidationError(nameof(Address));
                 }
 
                 return null;
