@@ -19,36 +19,10 @@
         /// <summary>
         /// Initializes a new instance of <see cref="BytesRange"/> struct.
         /// </summary>
-        public BytesRange(long start, long end)
+        public BytesRange(long start, long end = -1)
         {
             Start = start;
             End = end;
-        }
-        
-        /// <summary>
-        /// Returns a range specified by the start and end arguments.
-        /// If an the optional topBound argument is provided, the end of the range
-        /// will be limited by it.
-        /// </summary>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
-        /// <param name="topBound"></param>
-        /// <returns></returns>
-        public static BytesRange Make(long start, long end = -1, long topBound = -1)
-        {
-            long s = start;
-            long e = end;
-
-            if (end == -1 && topBound != -1)
-            {
-                end = topBound;
-            }
-
-            return new BytesRange
-            {
-                Start = s,
-                End = e
-            };
         }
 
         /// <summary>
@@ -57,7 +31,7 @@
         /// <returns></returns>
         public static BytesRange Empty()
         {
-            return Make(0, 0);
+            return new BytesRange(0, 0);
         }
     }
 }

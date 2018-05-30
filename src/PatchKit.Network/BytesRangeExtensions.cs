@@ -71,7 +71,7 @@ namespace PatchKit.Network
                 }
             }
 
-            return BytesRange.Make(start, end);
+            return new BytesRange(start, end);
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace PatchKit.Network
                 localEnd = -1;
             }
 
-            return BytesRange.Make(localStart, localEnd);
+            return new BytesRange(localStart, localEnd);
         }
 
         /// <summary>
