@@ -1,14 +1,37 @@
-﻿namespace PatchKit.Network
+﻿using PatchKit.Core;
+
+namespace PatchKit.Network
 {
     /// <summary>
     /// Describes HTTP GET request.
     /// </summary>
-    public class HttpGetRequest : BaseHttpRequest
+    public struct HttpGetRequest : IValidatable
     {
         /// <summary>
-        /// Requested bytes range.
-        /// If set to <c>null</c> range is not specified.
+        /// Initializes a new instance of the <see cref="HttpGetRequest"/> struct.
         /// </summary>
-        public BytesRange? Range { get; set; }
+        public HttpGetRequest(HttpAddress address)
+        {
+            Address = address;
+        }
+
+        /// <summary>
+        /// Target request address.
+        /// </summary>
+        public HttpAddress Address { get; }
+
+        /// <inheritdoc />
+        public string ValidationError
+        {
+            get
+            {
+                if (!Address.IsValid())
+                {
+                    return Address.GetFieldValidationError(nameof(Address));
+                }
+
+                return null;
+            }
+        }
     }
 }
