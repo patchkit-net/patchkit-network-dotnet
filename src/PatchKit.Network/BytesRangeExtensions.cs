@@ -30,20 +30,6 @@ namespace PatchKit.Network
         }
 
         /// <summary>
-        /// Returns the size of a given range.
-        /// Returns -1 if the range is not limited.
-        /// </summary>
-        public static long Size(this BytesRange range)
-        {
-            if (range.End == -1)
-            {
-                return -1;
-            }
-
-            return range.End - range.Start;
-        }
-
-        /// <summary>
         /// Limits one range inside the other, examples:
         /// 0:-1 contained in range 20:30 becomes 20:30.
         /// 0:100 contained in range 50:-1 becomes 50:100
@@ -56,7 +42,7 @@ namespace PatchKit.Network
             }
 
             long start = range.Start;
-            long end = range.End;
+            long? end = range.End;
 
             if (range.Start < outer.Start)
             {
@@ -89,7 +75,7 @@ namespace PatchKit.Network
             }
 
             long localStart = range.Start >= relative.Start ? range.Start - relative.Start : 0;
-            long localEnd = range.End <= relative.End ? range.End - relative.Start : -1;
+            long? localEnd = range.End <= relative.End ? range.End - relative.Start : -1;
 
             if (range.End == -1)
             {
@@ -140,9 +126,14 @@ namespace PatchKit.Network
         /// <param name="range"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static bool Contains(this BytesRange range, long value)
+        public static bool Contains(this BytesRange range, long? value)
         {
-            return value >= range.Start && (range.End == -1 || value <= range.End);
+            if (!value.HasValue)
+            {
+                return false;
+            }
+            
+            return value >= range.Start && (!range.End.HasValue || value <= range.End);
         }
     }
 }

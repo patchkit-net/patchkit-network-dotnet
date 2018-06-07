@@ -21,7 +21,7 @@ namespace PatchKit.Network
         /// <summary>
         /// Initializes a new instance of <see cref="BytesRange"/> struct.
         /// </summary>
-        public BytesRange(long start, long? end)
+        public BytesRange(long start, long? end = null)
         {
             Start = start;
             End = end;
