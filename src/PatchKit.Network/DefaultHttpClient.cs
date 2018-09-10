@@ -59,9 +59,10 @@ namespace PatchKit.Network
             tweakMethodSpecific(httpWebRequest);
 
             httpWebRequest.Timeout = request.Timeout;
+            httpWebRequest.ReadWriteTimeout = request.ReadWriteTimeout;
 
             HttpWebResponse httpWebResponse;
-            
+
             try
             {
                 httpWebResponse = (HttpWebResponse) httpWebRequest.GetResponse();
@@ -78,7 +79,7 @@ namespace PatchKit.Network
                     throw;
                 }
             }
-            
+
             return new HttpWebResponseAdapter(httpWebResponse);
         }
 
@@ -88,7 +89,7 @@ namespace PatchKit.Network
             {
                 throw new ArgumentOutOfRangeException(nameof(range.Start));
             }
-            
+
             if (range.End >= 0L && range.End < range.Start)
             {
                 throw new ArgumentOutOfRangeException(nameof(range.End));
@@ -96,10 +97,10 @@ namespace PatchKit.Network
 
             var startText = range.Start.ToString();
             var endText = range.End >= 0L ? range.End.ToString() : string.Empty;
-            
+
             HttpWebRequestAddRangeHelper.Invoke(httpWebRequest.Headers, new object[]
             {
-                "Range", 
+                "Range",
                 $"bytes={startText}-{endText}"
             });
         }

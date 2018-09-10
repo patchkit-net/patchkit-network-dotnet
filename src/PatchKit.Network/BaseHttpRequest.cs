@@ -16,5 +16,10 @@ namespace PatchKit.Network
         /// Request timeout in miliseconds.
         /// </summary>
         public int Timeout { get; set; }
+        
+        /// <summary>
+        /// Timeout used when reading/writing data.
+        /// </summary>
+        public int ReadWriteTimeout { get; set; }
     }
 }
