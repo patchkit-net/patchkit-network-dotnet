@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace PatchKit.Network
+﻿namespace PatchKit.Network
 {
     /// <inheritdoc />
     /// <summary>
@@ -9,23 +7,8 @@ namespace PatchKit.Network
     /// </summary>
     public class SimpleRequestTimeoutCalculator : IRequestTimeoutCalculator
     {
-        private readonly int[] _timeoutsInSeconds =
-        {
-            10, 15, 30, 60, 120
-        };
-
-        private int _index;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SimpleRequestTimeoutCalculator"/> class.
-        /// </summary>
-        public SimpleRequestTimeoutCalculator()
-        {
-            _index = 0;
-        }
-
         /// <inheritdoc />
-        public int Timeout => _timeoutsInSeconds[_index] * 1000;
+        public int Timeout => 10 * 1000;
 
         /// <inheritdoc />
         public void OnRequestSuccess()
@@ -35,7 +18,6 @@ namespace PatchKit.Network
         /// <inheritdoc />
         public void OnRequestFailure()
         {
-            _index = Math.Min(_index + 1, _timeoutsInSeconds.Length - 1);
         }
     }
 }
